@@ -19,7 +19,7 @@ bio: string;
 role: UserRole;
 
 @Prop({ type: [String], required: true })
-techStack: string[];
+techstack: string[];
 
 @Prop({ enum: ExperienceLevel, required: true })
 experienceLevel: ExperienceLevel;
@@ -50,6 +50,6 @@ ProfileSchema.pre('save', function () {
   this.isProfileComplete =
     !!this.name &&
     !!this.bio &&
-    this.techStack?.length > 0 &&
+    this.techstack?.length > 0 &&
     !!this.location;
 });
