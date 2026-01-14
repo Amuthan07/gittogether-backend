@@ -25,11 +25,13 @@ export class ProfilesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profilesService.update(id, updateProfileDto);
+    const mockUserId = '65a1f1f1f1f1f1f1f1f1f1f1'
+    return this.profilesService.update(id, mockUserId, updateProfileDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.profilesService.remove(id);
+    const mockUserId = '65a1f1f1f1f1f1f1f1f1f1f1'
+    return this.profilesService.remove(id, mockUserId);
   }
 }
