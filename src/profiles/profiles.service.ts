@@ -4,6 +4,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile, ProfileDocument } from './schemas/profile.schema';
 import { Model, Types } from 'mongoose';
+import { UserRole } from 'src/users/schemas/user.schema';
 
 @Injectable()
 export class ProfilesService {
@@ -28,23 +29,34 @@ export class ProfilesService {
     return userProfile;
   }
 
-  async update(id: string, userId: string, updateProfileDto: UpdateProfileDto) {
+  async update(id: string, userId: string, updateProfileDto: UpdateProfileDto, role: UserRole) {
     const profile = await this.profileModel.findById(id);
     if (!profile) throw new NotFoundException();
-    if (!profile.userId.equals(new Types.ObjectId(userId))) {
+    if (!profile.userId.equals(new Types.ObjectId(userId)) && role != UserRole.ADMIN) {
     throw new ForbiddenException('You are not allowed to update this profile');
   }
     Object.assign(profile, updateProfileDto);
     return profile.save();
   }
 
-  async remove(id: string, userId:string) {
+  async remove(id: string, userId:string, role:UserRole) {
     const userProfile = await this.profileModel.findById(id);
     if(!userProfile) throw new NotFoundException(`User profile with ${id} is not found`);
-    if (!userProfile.userId.equals(new Types.ObjectId(userId))) {
+    if (!userProfile.userId.equals(new Types.ObjectId(userId)) && role!=UserRole.ADMIN) {
     throw new ForbiddenException('You are not allowed to delete this profile');
   }
     await userProfile.deleteOne()
     return {message:"User deleted seccessfully",userProfile};
   }
+
+  async adminDelete(profileId: string) {
+  const profile = await this.profileModel.findById(profileId);
+
+  if (!profile) {
+    throw new NotFoundException('Profile not found');
+  }
+
+  await profile.deleteOne();
+  return { message: 'Profile deleted by admin' };
+}
 }

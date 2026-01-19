@@ -1,7 +1,8 @@
 import { IsString, IsEmail, IsNotEmpty, MinLength, IsArray, IsEnum, IsObject, IsBoolean, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer';
-import { ExperienceLevel, ProfileMode, UserRole } from '../enums/create_profile.enums';
+import { ExperienceLevel, ProfileMode, ProfileRole } from '../enums/create_profile.enums';
 import { LocationDto } from './create-profile-location.dto';
+
 export class CreateProfileDto {
 
     @IsString()
@@ -15,8 +16,8 @@ export class CreateProfileDto {
 
     @IsString()
     @IsNotEmpty()
-    @IsEnum(UserRole)
-    role: UserRole;
+    @IsEnum(ProfileRole, {message: 'Role must be one of: frontend, backend, fullstack, qa, devops, data'})
+    role: ProfileRole;
 
     @IsArray()
     @IsNotEmpty()

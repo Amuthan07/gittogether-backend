@@ -4,7 +4,12 @@ export enum ProfileMode{
     PROJECTS = 'projects'
 }
 
-export enum UserRole{
+/**
+ * ProfileRole - Developer/Technical Role
+ * This is NOT the same as UserRole (user/admin)!
+ * This describes what kind of developer the person is
+ */
+export enum ProfileRole{
     FRONTEND = 'frontend',
     BACKEND = 'backend',
     FULLSTACK = 'fullstack',
