@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { ExperienceLevel, ProfileMode, UserRole } from '../enums/create_profile.enums';
+import { ExperienceLevel, ProfileMode, ProfileRole} from '../enums/create_profile.enums';
 
 export type ProfileDocument = Profile & Document;
 @Schema({ timestamps: true })
@@ -15,8 +15,8 @@ name: string;
 @Prop({ required: true })
 bio: string;
 
-@Prop({ enum: UserRole, required: true })
-role: UserRole;
+@Prop({ enum: ProfileRole, required: true })
+role: ProfileRole;
 
 @Prop({ type: [String], required: true })
 techstack: string[];
