@@ -4,14 +4,20 @@ import { AppService } from './app.service';
 import { ProfilesModule } from './profiles/profiles.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AdminModule } from './admin/admin.module';
+
 
 @Module({
-  imports: [ProfilesModule, ConfigModule.forRoot({
+  imports: [
+    ConfigModule.forRoot({
       isGlobal: true,
-    }),MongooseModule.forRoot(process.env.MONGO_DB_URI!), AuthModule, UsersModule],
+    }),
+    MongooseModule.forRoot(process.env.MONGO_DB_URI!),
+    AuthModule,
+    AdminModule,
+    ProfilesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
