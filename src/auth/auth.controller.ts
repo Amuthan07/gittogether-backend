@@ -7,6 +7,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserRole } from 'src/users/schemas/user.schema';
+import { RefreshAuthGuard } from './guards/refresh-auth/refresh-auth.guard';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -33,4 +35,26 @@ export class AuthController {
         me(@Req() req) {
         return req.user;
         }
+    
+    @UseGuards(RefreshAuthGuard)
+    @Post('refresh')
+        refreshToken(@Req() req){
+            return this.authService.refreshToken(req.user.userId)
+        }
+
+    // Option 1: Logout with Access Token (default)
+    @UseGuards(AuthGuard('jwt'))
+    @Post('logout')
+        logout(@CurrentUser() user: any) {
+            return this.authService.logout(user.userId);
+        }
+
+    // Option 2: Logout with Refresh Token (alternative)
+    // Use this if you want users to logout even after access token expires
+    @UseGuards(RefreshAuthGuard)
+    @Post('logout-refresh')
+        logoutWithRefreshToken(@CurrentUser() user: any) {
+            return this.authService.logout(user.userId);
+        }
+
 }
