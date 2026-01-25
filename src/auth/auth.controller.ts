@@ -42,19 +42,18 @@ export class AuthController {
             return this.authService.refreshToken(req.user.userId)
         }
 
-    // Option 1: Logout with Access Token (default)
     @UseGuards(AuthGuard('jwt'))
     @Post('logout')
         logout(@CurrentUser() user: any) {
             return this.authService.logout(user.userId);
         }
 
-    // Option 2: Logout with Refresh Token (alternative)
-    // Use this if you want users to logout even after access token expires
-    @UseGuards(RefreshAuthGuard)
-    @Post('logout-refresh')
-        logoutWithRefreshToken(@CurrentUser() user: any) {
-            return this.authService.logout(user.userId);
-        }
+    // // Option 2: Logout with Refresh Token (alternative)
+    // // Use this if you want users to logout even after access token expires
+    // @UseGuards(RefreshAuthGuard)
+    // @Post('logout-refresh')
+    //     logoutWithRefreshToken(@CurrentUser() user: any) {
+    //         return this.authService.logout(user.userId);
+    //     }
 
 }
