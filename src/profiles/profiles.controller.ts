@@ -15,7 +15,6 @@ export class ProfilesController {
 
   @Post()
   async create(@CurrentUser() user: authUserInterface.AuthUser, @Body() createProfileDto: CreateProfileDto) {
-   
     return this.profilesService.create(user.userId ,createProfileDto);
   }
 

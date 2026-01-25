@@ -1,6 +1,6 @@
 import { IsString, IsEmail, IsNotEmpty, MinLength, IsArray, IsEnum, IsObject, IsBoolean, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer';
-import { ExperienceLevel, ProfileMode, ProfileRole } from '../enums/create_profile.enums';
+import { ExperienceLevel, Gender, ProfileMode, ProfileRole } from '../enums/create_profile.enums';
 import { LocationDto } from './create-profile-location.dto';
 
 export class CreateProfileDto {
@@ -13,6 +13,11 @@ export class CreateProfileDto {
     @IsString()
     @IsNotEmpty()
     bio:string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsEnum(Gender, {message: 'Gender must be one of: male, female, other'})
+    gender: Gender;
 
     @IsString()
     @IsNotEmpty()

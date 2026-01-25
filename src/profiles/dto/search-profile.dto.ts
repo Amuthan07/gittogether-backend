@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsOptional, IsString } from "class-validator";
-import { ExperienceLevel, ProfileMode, ProfileRole } from "../enums/create_profile.enums";
+import { ExperienceLevel, Gender, ProfileMode, ProfileRole } from "../enums/create_profile.enums";
 import { Type } from "class-transformer";
 import { Profile } from "../schemas/profile.schema";
 
@@ -9,6 +9,10 @@ export class SearchProfileDto{
     @IsOptional()
     @IsEnum(ProfileRole)
     role?:ProfileRole;
+
+    @IsOptional()
+    @IsEnum(Gender)
+    gender?:Gender;
 
     @IsOptional()
     @IsArray()
@@ -21,7 +25,7 @@ export class SearchProfileDto{
 
     @IsOptional()
     @IsEnum(ProfileMode)
-    mode:ProfileMode;
+    mode?:ProfileMode;
 
     @IsOptional()
     @IsString()
