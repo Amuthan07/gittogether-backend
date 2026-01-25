@@ -64,6 +64,7 @@ export class ProfilesService {
 
 async search(filters: SearchProfileDto): Promise<SearchProfilesResponse>{
 const {role,
+  gender,
   techstack,
   experienceLevel,
   mode,
@@ -73,6 +74,7 @@ const {role,
 } = filters;
 const query: any = {}
 if(role) query.role = role;
+if(gender) query.gender = gender;
 if(experienceLevel) query.experienceLevel = experienceLevel;
 if(techstack?.length) query.techstack = { $in: techstack};
 if(mode) query.mode = mode;

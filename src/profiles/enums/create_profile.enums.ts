@@ -25,3 +25,9 @@ export enum ExperienceLevel {
   SENIOR = 'senior',
   LEAD = 'lead',
 }
+
+export enum Gender {
+    MALE = 'male',
+    FEMALE = 'female',
+    OTHER = 'other'
+}
