@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Profile, ProfileDocument } from './schemas/profile.schema';
 import { Model, Types } from 'mongoose';
 import { UserRole } from 'src/users/schemas/user.schema';
+import { SearchProfileDto, SearchProfilesResponse } from './dto/search-profile.dto';
+import { promises } from 'dns';
 
 @Injectable()
 export class ProfilesService {
@@ -58,5 +60,38 @@ export class ProfilesService {
 
   await profile.deleteOne();
   return { message: 'Profile deleted by admin' };
+}
+
+async search(filters: SearchProfileDto): Promise<SearchProfilesResponse>{
+const {role,
+  techstack,
+  experienceLevel,
+  mode,
+  city,
+  page = 1,
+  limit = 10
+} = filters;
+const query: any = {}
+if(role) query.role = role;
+if(experienceLevel) query.experienceLevel = experienceLevel;
+if(techstack?.length) query.techstack = { $in: techstack};
+if(mode) query.mode = mode;
+if(city) query['location.city'] = city;
+const skip = (page -1) * limit;
+const [data, total] = await Promise.all([
+  this.profileModel
+  .find(query)
+  .skip(skip)
+  .limit(limit)
+  .lean(),
+
+  this.profileModel.countDocuments(query)
+]);
+return {
+  page,
+  limit,
+  total,
+  results: data
+}
 }
 }

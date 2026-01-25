@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import * as authUserInterface from 'src/auth/interface/auth-user.interface';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { SearchProfileDto } from './dto/search-profile.dto';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('profile')
@@ -21,6 +22,10 @@ export class ProfilesController {
   @Get()
   findAll() {
     return this.profilesService.findAll();
+  }
+  @Get('search')
+  search(@Query() query:SearchProfileDto){
+    return this.profilesService.search(query);
   }
 
   @Get(':id')
